@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, ipcMain } from 'electron';
 import path from 'path';
 import isDev from 'electron-is-dev';
 
@@ -32,9 +32,9 @@ function createWindow() {
     });
   }
 
-  if (isDev) {
-    win.webContents.openDevTools();
-  }
+//   if (isDev) {
+//     win.webContents.openDevTools();
+//   }
 }
 
 app.on('ready', createWindow);
@@ -49,4 +49,8 @@ app.on('activate', () => {
   if (win === null) {
     createWindow();
   }
+});
+
+ipcMain.on('start-job', (event, arg) => {
+
 });
