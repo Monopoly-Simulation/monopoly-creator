@@ -23,4 +23,4 @@ yarn-debug.log*
 yarn-error.log*
 
 # credential
-/src/credential.ts
+/src/remote/credential.ts

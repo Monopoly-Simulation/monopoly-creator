@@ -1,49 +1,28 @@
 import React, { useState } from 'react';
 import classNames from 'classnames/bind';
-import credential from './credential';
+import remote from '@/remote';
 import styles from './index.less';
 
 const cx = classNames.bind(styles)
-const NodeSSH = window.require('node-ssh');
-const ssh = new NodeSSH();
 
 function App() {
   const [info, setInfo] = useState('Hello world');
   const handleStart = async () => {
-    setInfo('connecting...');
+    setInfo('waiting...');
     try {
-      await ssh.connect(credential);
-      setInfo('executing...');
-      const sbatchList = [
-        '#!/bin/bash',
-        '#SBATCH -n 1',
-        '#SBATCH -N 1',
-        '#SBATCH -t 0-5:00',
-        '#SBATCH --mem=2000',
-        '#SBATCH -o /gpfsnyu/home/yz3352/monopoly/output/output-test.o',
-        '#SBATCH -e /gpfsnyu/home/yz3352/monopoly/output/error-test.e',
-        '#SBATCH --mail-type=ALL',
-        '#SBATCH --mail-user=yz3352@nyu.edu',
-        'module purge',
-        'module load python/gnu/3.7.3',
-        'SRCDIR=$HOME/monopoly/code',
-        'cd $SRCDIR',
-        'python main.py',
-      ];
-      await ssh.execCommand(`echo '${sbatchList.join('\n')}' >> $HOME/monopoly/jobs/job-test.sh`);
-      await ssh.execCommand('sbatch $HOME/monopoly/jobs/job-test.sh');
+      await remote.createJob({
+        email: 'yz3352@nyu.edu'
+      });
       setInfo('done');
-      ssh.dispose();
     } catch {
       setInfo('connection failed');
     }
   }
   const handleSearch = async () => {
-    setInfo('connecting...');
-    await ssh.connect(credential);
+    setInfo('waiting...');
     try {
-      const { stdout } = await ssh.execCommand('cat $HOME/monopoly/output/output-test.o');
-      setInfo(stdout);
+      const output = await remote.retrieveJob();
+      setInfo(output);
     } catch {
       setInfo('connection failed');
     }
