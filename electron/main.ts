@@ -32,9 +32,9 @@ function createWindow() {
     });
   }
 
-//   if (isDev) {
-//     win.webContents.openDevTools();
-//   }
+  if (isDev) {
+    win.webContents.openDevTools();
+  }
 }
 
 app.on('ready', createWindow);

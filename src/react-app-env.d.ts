@@ -8,4 +8,8 @@ declare global {
     require(module: 'electron'): typeof Electron;
     require(module: 'node-ssh'): typeof NodeSSH;
   }
+  declare module '*.less' {
+    const styles: Record<string, string>;
+    export default styles;
+  }
 }

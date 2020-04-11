@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
+import classNames from 'classnames/bind';
 import credential from './credential';
+import styles from './index.less';
 
+const cx = classNames.bind(styles)
 const NodeSSH = window.require('node-ssh');
 const ssh = new NodeSSH();
 
@@ -47,7 +50,7 @@ function App() {
   }
   return (
     <div className="App">
-      <pre>{info}</pre>
+      <pre className={cx('red')}>{info}</pre>
       <button onClick={handleStart}>Start</button>
       <button onClick={handleSearch}>Search</button>
     </div>
