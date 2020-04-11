@@ -26,7 +26,19 @@
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",
     "eject": "react-scripts eject",
-    "electron:dev": "concurrently \"BROWSER=none yarn start\" \"wait-on http://localhost:3000 && tsc -p electron -w\" \"wait-on http://localhost:3000 && tsc -p electron && electron .\""
+    "electron:dev": "concurrently \"BROWSER=none react-app-rewired start\" \"wait-on http://localhost:3000 && tsc -p electron -w\" \"wait-on http://localhost:3000 && tsc -p electron && electron .\"",
+    "electron:build": "yarn build && tsc -p electron && electron-builder",
+    "clean": "rm -rf node_modules",
+    "postinstall": "electron-builder install-app-deps"
+  },
+  "build": {
+    "extends": null,
+    "files": [
+      "build/**/*"
+    ],
+    "directories": {
+      "buildResources": "assets"
+    }
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -53,6 +65,7 @@
     "css-loader": "2.1.1",
     "customize-cra": "^0.9.1",
     "electron": "^8.2.1",
+    "electron-builder": "^22.4.1",
     "electron-is-dev": "^1.2.0",
     "electron-rebuild": "^1.10.1",
     "electron-reload": "^1.5.0",
