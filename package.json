@@ -23,11 +23,11 @@
   },
   "main": "build/electron/main.js",
   "scripts": {
-    "start": "react-app-rewired start",
-    "build": "react-app-rewired build",
+    "web-start": "react-app-rewired start",
+    "web-build": "react-app-rewired build",
     "eject": "react-scripts eject",
-    "electron:dev": "concurrently \"BROWSER=none react-app-rewired start\" \"wait-on http://localhost:3000 && tsc -p electron -w\" \"wait-on http://localhost:3000 && tsc -p electron && electron .\"",
-    "electron:build": "yarn build && tsc -p electron && electron-builder",
+    "start": "concurrently \"BROWSER=none react-app-rewired start\" \"wait-on http://localhost:3000 && tsc -p electron -w\" \"wait-on http://localhost:3000 && tsc -p electron && electron .\"",
+    "build": "react-app-rewired build && tsc -p electron && electron-builder",
     "clean": "rm -rf node_modules",
     "postinstall": "electron-builder install-app-deps"
   },
