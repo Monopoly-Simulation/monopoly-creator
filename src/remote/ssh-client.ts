@@ -9,11 +9,8 @@ const projectDir = `/gpfsnyu/home/${credential.username}/monopoly`;
 interface JobProps {
   core?: number;
   node?: number;
-  runtime?: {
-    day: number;
-    hour: number;
-    minute: number;
-  }
+  hour?: number;
+  minute?: number;
   memory?: number;
   email: string;
 }
@@ -29,21 +26,16 @@ export default class SSHClient {
     const {
       core = 1,
       node = 1,
-      runtime: {
-        day, hour, minute,
-      } = {
-        day: 0,
-        hour: 5,
-        minute: 0,
-      },
-      memory = 2000,
+      hour = 1,
+      minute = 0,
+      memory = 1000,
       email,
     } = job;
     const jobConfigList = [
       '#!/bin/bash',
       `#SBATCH -n ${core}`,
       `#SBATCH -N ${node}`,
-      `#SBATCH -t ${day}-${hour}:${minute}`,
+      `#SBATCH -t 0-${hour}:${minute}`,
       `#SBATCH --mem=${memory}`,
       `#SBATCH -o ${projectDir}/output/output-${this.uid}.o`,
       `#SBATCH -e ${projectDir}/output/error-${this.uid}.e`,
