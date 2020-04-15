@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Form, Input, InputNumber, Button, Modal } from 'antd';
 import classNames from 'classnames/bind';
 import remote from '@/remote';
+import db from '@/database';
 import styles from './index.module.less';
 
 const cx = classNames.bind(styles);
@@ -39,10 +40,19 @@ const Create: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const handleFinish = async (values: any) => {
     setLoading(true);
-    await remote.createJob(values as FormValues);
-    Modal.success({
-      content: 'Job created. Please pay attention to your inbox and come back when it is completed!'
-    })
+    try {
+      const uid = await remote.createJob(values as FormValues);
+      await db.addJob({
+        uid,
+      });
+      Modal.success({
+        content: 'Job created. Please pay attention to your inbox and come back when it is completed!',
+      });
+    } catch {
+      Modal.error({
+        content: 'Network error! Please make sure you have access to the NYU network.',
+      })
+    }
     setLoading(false);
   }
 

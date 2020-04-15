@@ -25,3 +25,6 @@ yarn-error.log*
 
 # credential
 /src/remote/credential.ts
+
+# database file
+db.json

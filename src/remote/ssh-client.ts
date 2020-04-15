@@ -22,6 +22,10 @@ export default class SSHClient {
     return ssh.connect(credential);
   }
 
+  getUid() {
+    return this.uid;
+  }
+
   createJobConfig(job: JobProps) {
     const {
       core = 1,
@@ -66,6 +70,7 @@ export default class SSHClient {
     await ssh.execCommand(`echo '${script}' >> ${scriptPath}`);
     await ssh.execCommand(`sbatch ${scriptPath}`);
     ssh.dispose();
+    return this.uid;
   }
 
   async retrieveJob(uid = this.uid) {

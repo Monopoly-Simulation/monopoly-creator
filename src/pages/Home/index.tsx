@@ -1,10 +1,9 @@
-import React from 'react'
+import React from 'react';
+import JobTable from '@/components/JobTable';
 
 const Home: React.FC = () => {
   return (
-    <div>
-      Home
-    </div>
+    <JobTable />
   );
 }
 
