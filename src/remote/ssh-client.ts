@@ -15,6 +15,15 @@ interface JobProps {
   email: string;
 }
 
+interface GameProps {
+  game: number;
+  player: number;
+  round: number;
+  income: number;
+  tax: number;
+  initialFunding: number;
+}
+
 export default class SSHClient {
   private uid = '';
 
@@ -26,15 +35,15 @@ export default class SSHClient {
     return this.uid;
   }
 
-  createJobConfig(job: JobProps) {
+  createJobConfig(jobProps: JobProps) {
     const {
-      core = 1,
-      node = 1,
+      core = 4,
+      node = 4,
       hour = 1,
       minute = 0,
-      memory = 1000,
+      memory = 2000,
       email,
-    } = job;
+    } = jobProps;
     const jobConfigList = [
       '#!/bin/bash',
       `#SBATCH -n ${core}`,
@@ -49,21 +58,24 @@ export default class SSHClient {
     return jobConfigList.join('\n');
   }
 
-  createGameConfig() {
+  createGameConfig(gameProps: GameProps) {
+    const {
+      game, player, round, income, tax, initialFunding
+    } = gameProps;
     const gameConfigList = [
       'module purge',
       'module load python/gnu/3.7.3',
       `SRCDIR=${projectDir}/code`,
       'cd $SRCDIR',
-      'python main.py',
+      `python monopoly.py -v -n ${game} -p ${player} -r ${round} -i ${income} 0 1 -tax ${tax / 100} 0 1 -sc ${initialFunding} 0 1`,
     ];
     return gameConfigList.join('\n');
   }
 
-  async createJob(job: JobProps) {
+  async createJob(job: JobProps, game: GameProps) {
     this.uid = uuid();
     const jobConfig = this.createJobConfig(job);
-    const gameConfig = this.createGameConfig();
+    const gameConfig = this.createGameConfig(game);
     const script = [jobConfig, gameConfig].join('\n');
     await this.connect();
     const scriptPath = `${projectDir}/jobs/job-${this.uid}.sh`;

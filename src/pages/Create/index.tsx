@@ -19,29 +19,32 @@ const tailLayout = {
 };
 
 interface FormValues {
-  core: number;
-  node: number;
-  hour: number;
-  minute: number;
-  memory: number;
+  game: number;
+  player: number;
+  round: number;
+  income: number;
+  initialFunding: number;
+  tax: number;
   email: string;
 }
 
 const initialValues: Partial<FormValues> = {
-  core: 1,
-  node: 1,
-  hour: 1,
-  minute: 0,
-  memory: 1000,
+  game: 100,
+  player: 3,
+  round: 1000,
+  initialFunding: 200,
+  income: 100,
+  tax: 0,
 }
 
 const Create: React.FC = () => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const handleFinish = async (values: any) => {
+    const { email, ...gameProps } = values as FormValues;
     setLoading(true);
     try {
-      const uid = await remote.createJob(values as FormValues);
+      const uid = await remote.createJob({ email }, gameProps);
       await db.addJob({
         uid,
       });
@@ -59,27 +62,33 @@ const Create: React.FC = () => {
   return (
     <div className={cx('create')}>
       <Form {...layout} form={form} onFinish={handleFinish} initialValues={initialValues}>
-        <Form.Item name="core" label="Number of cores">
-          <InputNumber min={1} max={8} defaultValue={1} />
+        <Form.Item name="game" label="Number of games">
+          <InputNumber min={1} max={1000} />
         </Form.Item>
-        <Form.Item name="node" label="Number of nodes">
-          <InputNumber min={1} max={64} defaultValue={1} />
+        <Form.Item name="player" label="Number of players">
+          <InputNumber min={2} max={4} />
         </Form.Item>
-        <Form.Item label="Maximum running time">
-          <Form.Item className={cx('item--inline')} name="hour">
-            <InputNumber min={0} max={23} />
-          </Form.Item>
-          <span className={cx('item--inline-text')}>hour(s)</span>
-          <Form.Item className={cx('item--inline')} name="minute">
-            <InputNumber min={0} max={59} />
-          </Form.Item>
-          <span className={cx('item--inline-text')}>minute(s)</span>
+        <Form.Item name="round" label="Maximum round each game">
+          <InputNumber min={1} max={10000} />
         </Form.Item>
-        <Form.Item label="Memory">
-          <Form.Item className={cx('item--inline')} name="memory">
-            <InputNumber min={100} max={8000} />
+        <Form.Item name="initialFunding" label="Initial funding">
+          <InputNumber min={1} max={10000} />
+        </Form.Item>
+        <Form.Item
+          name="income"
+          label="Salary"
+          extra="Salary is paid when players pass [GO]"
+        >
+          <InputNumber min={0} max={10000} />
+        </Form.Item>
+        <Form.Item
+          label="Tax"
+          extra="Tax is charged when players pass [GO]"
+        >
+          <Form.Item className={cx('item--inline')} name="tax">
+            <InputNumber min={0} max={100} />
           </Form.Item>
-          <span className={cx('item--inline-text')}>MB(s)</span>
+          <span className={cx('item--inline-text')}>%</span>
         </Form.Item>
         <Form.Item
           label="Email"
