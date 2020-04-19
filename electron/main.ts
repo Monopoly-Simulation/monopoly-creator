@@ -6,8 +6,8 @@ let win: BrowserWindow | null = null;
 
 function createWindow() {
   win = new BrowserWindow({
-    width: 1024,
-    height: 768,
+    width: 1200,
+    height: 800,
     webPreferences: {
       nodeIntegration: true
     }
@@ -49,8 +49,4 @@ app.on('activate', () => {
   if (win === null) {
     createWindow();
   }
-});
-
-ipcMain.on('start-job', (event, arg) => {
-
 });

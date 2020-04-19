@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Form, Input, InputNumber, Button, Modal } from 'antd';
 import classNames from 'classnames/bind';
+import { Game } from '@/types';
 import remote from '@/remote';
 import db from '@/database';
 import styles from './index.module.less';
@@ -18,13 +19,7 @@ const tailLayout = {
   }
 };
 
-interface FormValues {
-  game: number;
-  player: number;
-  round: number;
-  income: number;
-  initialFunding: number;
-  tax: number;
+interface FormValues extends Game {
   email: string;
 }
 
