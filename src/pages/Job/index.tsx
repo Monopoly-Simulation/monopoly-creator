@@ -1,6 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import db from '@/database';
+import React from 'react';
+import { useParams, useHistory } from 'react-router-dom';
+import { PageHeader } from 'antd';
+import classNames from 'classnames/bind';
+import GameSettingsDescription from '@/components/GameSettingsDescription';
+import styles from './index.module.less';
+
+const cx = classNames.bind(styles);
 
 interface JobPageParams {
   uid: string;
@@ -8,17 +13,20 @@ interface JobPageParams {
 
 const Job: React.FC = () => {
   const { uid } = useParams<JobPageParams>();
-  const [output, setOutput] = useState('');
-  useEffect(() => {
-    (async () => {
-      const result = await db.getResult(uid);
-      setOutput(result);
-    })();
-  }, [uid]);
+  const history = useHistory();
+  const handleBack = () => {
+    history.push('/');
+  }
   return (
-    <pre>
-      {output}
-    </pre>
+    <div className={cx('job')}>
+      <PageHeader
+        className={cx('job__header')}
+        onBack={handleBack}
+        title="Job detail"
+        subTitle={`ID: ${uid}`}
+      />
+      <GameSettingsDescription uid={uid} />
+    </div>
   )
 }
 

@@ -42,6 +42,7 @@ const Create: React.FC = () => {
       const uid = await remote.createJob({ email }, gameProps);
       await db.addJob({
         uid,
+        gameSettings: gameProps,
       });
       Modal.success({
         content: 'Job created. Please pay attention to your inbox and come back when it is completed!',

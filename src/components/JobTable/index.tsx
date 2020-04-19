@@ -4,13 +4,13 @@ import { message, Table, Tag, Button, Modal } from 'antd';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 import classNames from 'classnames/bind';
 import db from '@/database';
-import { Job, JobStatus } from '@/database/schema';
+import { JobLine, JobStatus } from '@/database/schema';
 import styles from './index.module.less';
 
 const cx = classNames.bind(styles);
 
 const JobTable: React.FC = () => {
-  const [data, setData] = useState<Job[]>([]);
+  const [data, setData] = useState<JobLine[]>([]);
   const [loadingJobId, setLoadingJobId] = useState('');
   const history = useHistory();
   const columns = [
@@ -44,7 +44,7 @@ const JobTable: React.FC = () => {
       title: 'Actions',
       key: 'actions',
       width: '25%',
-      render(n: undefined, job: Job) {
+      render(n: undefined, job: JobLine) {
         const { status, uid } = job;
         let operationButton: JSX.Element;
         if (status === JobStatus.Running) {

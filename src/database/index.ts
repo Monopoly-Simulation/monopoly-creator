@@ -1,6 +1,6 @@
 import { PartialBy } from '@/types';
 import remote from '@/remote';
-import { DatabaseStructure, JobStatus, Job, Result } from './schema';
+import { DatabaseStructure, JobStatus, JobLine, ResultLine } from './schema';
 
 const low = window.require('lowdb');
 const FileSync =  window.require('lowdb/adapters/FileSync');
@@ -14,7 +14,7 @@ db.defaults<DatabaseStructure>({
 }).write();
 
 class Database {
-  async addJob(job: PartialBy<Job, 'startTime' | 'status'>) {
+  async addJob(job: PartialBy<JobLine, 'startTime' | 'status'>) {
     const newJob = Object.assign({
       startTime: Date.now(),
       status: JobStatus.Running,
@@ -22,12 +22,17 @@ class Database {
     await db.get('jobs').push(newJob).write();
   }
 
+  async getJob(uid: string) {
+    const job = await db.get('jobs').find({ uid }).value();
+    return job;
+  }
+
   async getAllJobs() {
     const jobs = await db.get('jobs').orderBy('startTime', 'desc').value();
     return jobs;
   }
 
-  async addResult(result: Result) {
+  async addResult(result: ResultLine) {
     await db.get('results').push(result).write();
   }
 

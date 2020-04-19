@@ -1,6 +1,8 @@
+import { Game } from '@/types';
+
 export interface DatabaseStructure {
-  jobs: Job[];
-  results: Result[];
+  jobs: JobLine[];
+  results: ResultLine[];
 }
 
 export enum JobStatus {
@@ -8,13 +10,14 @@ export enum JobStatus {
   Completed,
 }
 
-export interface Job {
+export interface JobLine {
   uid: string;
   startTime: number;
   status: JobStatus;
+  gameSettings: Game;
 }
 
-export interface Result {
+export interface ResultLine {
   uid: string;
   output: string;
 }
