@@ -38,7 +38,7 @@ class Database {
 
   async getResult(uid: string) {
     const result = await db.get('results').find({ uid }).value();
-    return result.output;
+    return result;
   }
 
   async checkJob(uid: string): Promise<boolean> {
@@ -53,7 +53,7 @@ class Database {
     await db.get('results')
       .push({
       uid,
-      output: result,
+      output: JSON.parse(result),
     }).write();
     return true;
   }

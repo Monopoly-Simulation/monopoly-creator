@@ -4,10 +4,11 @@ import { Game } from '@/types';
 import db from '@/database';
 
 interface GameSettingsDescriptionProps {
+  className?: string;
   uid: string;
 }
 
-const GameSettingsDescription: React.FC<GameSettingsDescriptionProps> = ({ uid }) => {
+const GameSettingsDescription: React.FC<GameSettingsDescriptionProps> = ({ className, uid }) => {
   const [{
     game, player, round, income, tax, initialFunding,
   }, setGame] = useState<Game>({
@@ -25,7 +26,7 @@ const GameSettingsDescription: React.FC<GameSettingsDescriptionProps> = ({ uid }
     })();
   }, [uid]);
   return (
-    <Descriptions title="Game settings" bordered>
+    <Descriptions className={className} title="Game settings" bordered>
       <Descriptions.Item label="Number of games">{game}</Descriptions.Item>
       <Descriptions.Item label="Number of players">{player}</Descriptions.Item>
       <Descriptions.Item label="Maximum round limit">{round}</Descriptions.Item>

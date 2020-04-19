@@ -21,7 +21,6 @@
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.1",
-    "typescript": "~3.7.2",
     "uuid": "^7.0.3"
   },
   "main": "build/electron/main.js",
@@ -75,6 +74,7 @@
     "less": "^3.11.1",
     "less-loader": "^5.0.0",
     "react-app-rewired": "^2.1.5",
+    "typescript": "^3.8.3",
     "wait-on": "^4.0.1"
   }
 }

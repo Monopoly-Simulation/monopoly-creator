@@ -1,4 +1,4 @@
-import { Game } from '@/types';
+import { Game, JobOutput } from '@/types';
 
 export interface DatabaseStructure {
   jobs: JobLine[];
@@ -19,5 +19,5 @@ export interface JobLine {
 
 export interface ResultLine {
   uid: string;
-  output: string;
+  output: JobOutput;
 }
