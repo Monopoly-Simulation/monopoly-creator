@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import { message, Table, Tag, Button } from 'antd';
+import { message, Table, Tag, Button, Modal } from 'antd';
+import { ExclamationCircleOutlined } from '@ant-design/icons';
+import classNames from 'classnames/bind';
 import db from '@/database';
 import { Job, JobStatus } from '@/database/schema';
+import styles from './index.module.less';
+
+const cx = classNames.bind(styles);
 
 const JobTable: React.FC = () => {
   const [data, setData] = useState<Job[]>([]);
@@ -19,7 +24,7 @@ const JobTable: React.FC = () => {
       title: 'Creation time',
       dataIndex: 'startTime',
       key: 'startTime',
-      width: '30%',
+      width: '20%',
       render(startTime: number) {
         return new Date(startTime).toLocaleString();
       },
@@ -38,9 +43,10 @@ const JobTable: React.FC = () => {
     {
       title: 'Actions',
       key: 'actions',
-      width: '15%',
+      width: '25%',
       render(n: undefined, job: Job) {
         const { status, uid } = job;
+        let operationButton: JSX.Element;
         if (status === JobStatus.Running) {
           const handleCheckButtonClick = async () => {
             setLoadingJobId(uid);
@@ -58,13 +64,34 @@ const JobTable: React.FC = () => {
             }
             setLoadingJobId('');
           }
-          return <Button loading={loadingJobId === uid} onClick={handleCheckButtonClick}>Check</Button>;
+          operationButton = <Button loading={loadingJobId === uid} onClick={handleCheckButtonClick}>Check</Button>;
         } else {
           const handleDetailButtonClick = () => {
             history.push(`/job/${uid}`);
           }
-          return <Button onClick={handleDetailButtonClick} type="primary">Detail</Button>;
+          operationButton = <Button onClick={handleDetailButtonClick} type="primary">Detail</Button>;
         }
+        const handleConfirmDelete = async () => {
+          await db.deleteJobAndResult(uid);
+          setData(await db.getAllJobs());
+        }
+        const handleDeleteButtonClick = () => {
+          Modal.confirm({
+            title: 'Are you sure to delete the job?',
+            icon: <ExclamationCircleOutlined />,
+            content: 'The job and its result will be lost permanently.',
+            okText: 'Yes',
+            okType: 'danger',
+            cancelText: 'No',
+            onOk: handleConfirmDelete,
+          });
+        }
+        return (
+          <>
+            {operationButton}
+            <Button className={cx('delete-btn')} onClick={handleDeleteButtonClick} type="danger">Delete</Button>
+          </>
+        )
       }
     }
   ]

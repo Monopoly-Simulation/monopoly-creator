@@ -52,6 +52,11 @@ class Database {
     }).write();
     return true;
   }
+
+  async deleteJobAndResult(uid: string) {
+    await db.get('jobs').remove({ uid }).write();
+    await db.get('results').remove({ uid }).write();
+  }
 }
 
 export default new Database();

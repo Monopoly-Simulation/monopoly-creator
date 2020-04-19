@@ -61,6 +61,7 @@ const Create: React.FC = () => {
 
   return (
     <div className={cx('create')}>
+      <h2 className={cx('create__header')}>Create a new simulation job</h2>
       <Form {...layout} form={form} onFinish={handleFinish} initialValues={initialValues}>
         <Form.Item name="game" label="Number of games">
           <InputNumber min={1} max={1000} />
