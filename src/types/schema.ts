@@ -1,9 +1,9 @@
 export interface Job {
-  core: number;
-  node: number;
-  hour: number;
-  minute: number;
-  memory: number;
+  core?: number;
+  node?: number;
+  hour?: number;
+  minute?: number;
+  memory?: number;
   email: string;
 }
 

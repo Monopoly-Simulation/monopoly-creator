@@ -1,28 +1,13 @@
 import { v4 as uuid } from 'uuid';
+import { Job, Game } from '@/types';
+import getGameCommand from './game';
+import getJobCommand from './job';
 import credential from './credential';
 
 const NodeSSH = window.require('node-ssh');
 
 const ssh = new NodeSSH();
-const projectDir = `/gpfsnyu/home/${credential.username}/monopoly`;
-
-interface JobProps {
-  core?: number;
-  node?: number;
-  hour?: number;
-  minute?: number;
-  memory?: number;
-  email: string;
-}
-
-interface GameProps {
-  game: number;
-  player: number;
-  round: number;
-  income: number;
-  tax: number;
-  initialFunding: number;
-}
+export const projectDir = `/gpfsnyu/home/${credential.username}/monopoly`;
 
 export default class SSHClient {
   private uid = '';
@@ -35,44 +20,26 @@ export default class SSHClient {
     return this.uid;
   }
 
-  createJobConfig(jobProps: JobProps) {
-    const {
-      core = 4,
-      node = 4,
-      hour = 1,
-      minute = 0,
-      memory = 2000,
-      email,
-    } = jobProps;
+  createJobConfig(jobProps: Job) {
     const jobConfigList = [
       '#!/bin/bash',
-      `#SBATCH -n ${core}`,
-      `#SBATCH -N ${node}`,
-      `#SBATCH -t 0-${hour}:${minute}`,
-      `#SBATCH --mem=${memory}`,
-      `#SBATCH -o ${projectDir}/output/output-${this.uid}.o`,
-      `#SBATCH -e ${projectDir}/output/error-${this.uid}.e`,
-      '#SBATCH --mail-type=ALL',
-      `#SBATCH --mail-user=${email}`,
+      getJobCommand(this.uid, jobProps),
     ];
     return jobConfigList.join('\n');
   }
 
-  createGameConfig(gameProps: GameProps) {
-    const {
-      game, player, round, income, tax, initialFunding
-    } = gameProps;
+  createGameConfig(gameProps: Game) {
     const gameConfigList = [
       'module purge',
       'module load python/gnu/3.7.3',
       `SRCDIR=${projectDir}/code`,
       'cd $SRCDIR',
-      `python monopoly.py -v -n ${game} -p ${player} -r ${round} -i ${income} 0 1 -tax ${tax / 100} 0 1 -sc ${initialFunding} 0 1`,
+      getGameCommand(gameProps),
     ];
     return gameConfigList.join('\n');
   }
 
-  async createJob(job: JobProps, game: GameProps) {
+  async createJob(job: Job, game: Game) {
     this.uid = uuid();
     const jobConfig = this.createJobConfig(job);
     const gameConfig = this.createGameConfig(game);
