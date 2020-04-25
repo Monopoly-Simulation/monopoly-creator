@@ -7,6 +7,10 @@ class GameConfig implements Config {
     this.settings = settings;
   }
 
+  getModeParam() {
+    return '-mode 0';
+  }
+
   getGameParam() {
     const { game } = this.settings;
     return `-n ${game}`;
@@ -23,18 +27,18 @@ class GameConfig implements Config {
   }
 
   getIncomeParam() {
-    const { income } = this.settings;
-    return `-i ${income} 0 1`;
+    const { income, incomeStep = 0, incomeStepNumber = 1 } = this.settings;
+    return `-i ${income} ${incomeStep} ${incomeStepNumber}`;
   }
 
   getTaxParam() {
-    const { tax } = this.settings;
-    return `-tax ${tax / 100} 0 1`;
+    const { tax, taxStep = 0, taxStepNumber = 1 } = this.settings;
+    return `-tax ${tax / 100} ${taxStep} ${taxStepNumber}`;
   }
 
   getInitialFundingParam() {
-    const { initialFunding } = this.settings;
-    return `-sc ${initialFunding} 0 1`;
+    const { initialFunding, initialFundingStep = 0, initialFundingStepNumber = 1 } = this.settings;
+    return `-sc ${initialFunding} ${initialFundingStep} ${initialFundingStepNumber}`;
   }
 
   getBuyingRangeParam() {
@@ -51,6 +55,7 @@ class GameConfig implements Config {
 
   getCommand() {
     const parameters: string[] = [
+      this.getModeParam(),
       this.getGameParam(),
       this.getPlayerParam(),
       this.getRoundParam(),
