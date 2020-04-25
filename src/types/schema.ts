@@ -12,8 +12,14 @@ export interface Game {
   player: number;
   round: number;
   income: number;
+  incomeStep?: number;
+  incomeStepNumber?: number;
   tax: number;
+  taxStep?: number;
+  taxStepNumber?: number;
   initialFunding: number;
+  initialFundingStep?: number;
+  initialFundingStepNumber?: number;
 }
 
 export interface PlayerSettings {
