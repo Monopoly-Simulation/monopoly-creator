@@ -1,12 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { Descriptions } from 'antd';
-import { SimulationResult, JobOutput } from '@/types';
+import classNames from 'classnames/bind';
+import { SimulationResult, JobOutput, BaseProps } from '@/types';
 import { emptyJobOutput, emptySimulationResult } from '@/constants';
+import Subtitle from '@/components/Subtitle';
 import SimulationSelect from '@/components/SimulationSelect';
+import PlayerSettingsList from '@/components/PlayerSettingsList';
+import SimulationAnalysis from '@/components/SimulationAnalysis';
 import db from '@/database';
+import styles from './index.module.less';
 
-interface SimulationDescriptionProps {
-  className?: string;
+const cx = classNames.bind(styles);
+
+interface SimulationDescriptionProps extends BaseProps {
   uid: string;
 }
 
@@ -25,13 +30,12 @@ const SimulationDescription: React.FC<SimulationDescriptionProps> = ({ className
   const handleSimulationChange = (value: number) => {
     setSelectedSimulation(simulations[value]);
   }
-  const { avg_round } = selectedSimulation.results;
   return (
     <div className={className}>
       <SimulationSelect defaultValue={0} length={simulations.length} onChange={handleSimulationChange} />
-      <Descriptions title="Simulation result" bordered>
-        <Descriptions.Item label="Average round number">{avg_round}</Descriptions.Item>
-      </Descriptions>
+      <Subtitle>Players</Subtitle>
+      <PlayerSettingsList players={selectedSimulation.settings} />
+      <SimulationAnalysis className={cx('desc')} result={selectedSimulation.results} />
     </div>
   );
 }

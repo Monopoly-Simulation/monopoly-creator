@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Descriptions } from 'antd';
-import { Game } from '@/types';
+import { Game, BaseProps } from '@/types';
 import { emptyGame } from '@/constants';
 import db from '@/database';
 
-interface GameSettingsDescriptionProps {
-  className?: string;
+interface GameSettingsDescriptionProps extends BaseProps {
   uid: string;
 }
 
