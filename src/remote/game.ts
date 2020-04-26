@@ -27,30 +27,39 @@ class GameConfig implements Config {
   }
 
   getIncomeParam() {
-    const { income, incomeStep = 0, incomeStepNumber = 1 } = this.settings;
-    return `-i ${income} ${incomeStep} ${incomeStepNumber}`;
+    const { income, incomeStep, incomeStepNumber } = this.settings;
+    if (incomeStep && incomeStepNumber) {
+      return `-i ${income} ${incomeStep} ${incomeStepNumber}`;
+    }
+    return `-i ${income}`;
   }
 
   getTaxParam() {
-    const { tax, taxStep = 0, taxStepNumber = 1 } = this.settings;
-    return `-tax ${tax / 100} ${taxStep} ${taxStepNumber}`;
+    const { tax, taxStep, taxStepNumber } = this.settings;
+    if (taxStep && taxStepNumber) {
+      return `-tax ${tax / 100} ${taxStep / 100} ${taxStepNumber}`;
+    }
+    return `-tax ${tax / 100}`;
   }
 
   getInitialFundingParam() {
-    const { initialFunding, initialFundingStep = 0, initialFundingStepNumber = 1 } = this.settings;
-    return `-sc ${initialFunding} ${initialFundingStep} ${initialFundingStepNumber}`;
+    const { initialFunding, initialFundingStep, initialFundingStepNumber } = this.settings;
+    if (initialFundingStep && initialFundingStepNumber) {
+      return `-sc ${initialFunding} ${initialFundingStep} ${initialFundingStepNumber}`;
+    }
+    return `-sc ${initialFunding}`;
   }
 
   getBuyingRangeParam() {
-    return '-br 0.5 0 1';
+    return '-br 0.5';
   }
 
   getUpgradingRangeParam() {
-    return '-ur 0.5 0 1';
+    return '-ur 0.5';
   }
 
   getTradingRangeParam() {
-    return '-tr 0.5 0 1';
+    return '-tr 0.5';
   }
 
   getCommand() {
