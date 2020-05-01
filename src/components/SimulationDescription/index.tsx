@@ -16,7 +16,7 @@ interface SimulationDescriptionProps extends BaseProps {
 }
 
 const SimulationDescription: React.FC<SimulationDescriptionProps> = ({ className, uid }) => {
-  const [output, setOutput] = useState<JobOutput>(emptyJobOutput);
+  const [, setOutput] = useState<JobOutput>(emptyJobOutput);
   const [simulations, setSimulations] = useState<SimulationResult[]>([]);
   const [selectedSimulation, setSelectedSimulation] = useState<SimulationResult>(emptySimulationResult);
   useEffect(() => {
