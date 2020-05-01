@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import JobTable from '@/components/JobTable';
 import ImportButton from '@/components/ImportButton';
+import ExportButton from '@/components/ExportButton';
 import classNames from 'classnames/bind';
 import styles from './index.module.less';
 
@@ -13,7 +14,10 @@ const Home: React.FC = () => {
   }
   return (
     <div className={cx('home')}>
-      <ImportButton onFinish={handleImportFinish} />
+      <div className={cx('btn-group')}>
+        <ImportButton className={cx('btn-group__import')} onFinish={handleImportFinish} />
+        <ExportButton />
+      </div>
       <JobTable key={importCount} />
     </div>
   );

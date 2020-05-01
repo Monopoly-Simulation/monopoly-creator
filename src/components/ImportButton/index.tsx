@@ -2,6 +2,7 @@ import React from 'react';
 import { Button } from 'antd';
 import { FileFilter } from 'electron';
 import database from '@/database';
+import { BaseProps } from '@/types';
 
 const { remote } = window.require('electron');
 const fs = window.require('fs');
@@ -15,14 +16,15 @@ const fileFilters: FileFilter[] = [
   }
 ]
 
-interface ImportButtonProps {
+interface ImportButtonProps extends BaseProps {
   onFinish?: () => void;
 }
 
-const ImportButton: React.FC<ImportButtonProps> = ({ onFinish }) => {
+const ImportButton: React.FC<ImportButtonProps> = ({ className, style, onFinish }) => {
   const handleClick = () => {
     const selectResults = dialog.showOpenDialogSync(win, {
       filters: fileFilters,
+      properties: ['openFile'],
     });
     if (!selectResults) {
       return;
@@ -38,7 +40,7 @@ const ImportButton: React.FC<ImportButtonProps> = ({ onFinish }) => {
     onFinish?.();
   }
   return (
-    <Button type="primary" onClick={handleClick}>
+    <Button className={className} style={style} type="primary" onClick={handleClick}>
       Import
     </Button>
   )
