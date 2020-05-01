@@ -5,8 +5,8 @@ import { DatabaseStructure, JobStatus, JobLine, ResultLine } from './schema';
 const low = window.require('lowdb');
 const FileSync =  window.require('lowdb/adapters/FileSync');
 
-const adapter = new FileSync<DatabaseStructure>('db.json');
-const db = low(adapter);
+let adapter = new FileSync<DatabaseStructure>('db.json');
+let db = low(adapter);
 
 db.defaults<DatabaseStructure>({
   jobs: [],
@@ -14,6 +14,11 @@ db.defaults<DatabaseStructure>({
 }).write();
 
 class Database {
+  refresh() {
+    adapter = new FileSync<DatabaseStructure>('db.json');
+    db = low(adapter);
+  }
+
   async addJob(job: PartialBy<JobLine, 'startTime' | 'status'>) {
     const newJob = Object.assign({
       startTime: Date.now(),
