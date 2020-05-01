@@ -52,9 +52,9 @@ const GameSettingsDescription: React.FC<GameSettingsDescriptionProps> = ({ class
     }
     return (
       <>
-        <Descriptions.Item label="Range parameter">{rangeParam}</Descriptions.Item>
         <Descriptions.Item label="Step">{step}</Descriptions.Item>
         <Descriptions.Item label="Step number">{stepNumber}</Descriptions.Item>
+        <Descriptions.Item label="Range parameter">{rangeParam}</Descriptions.Item>
       </>
     );
   }

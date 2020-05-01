@@ -8,6 +8,7 @@ export interface DatabaseStructure {
 export enum JobStatus {
   Running,
   Completed,
+  Error,
 }
 
 export interface JobLine {

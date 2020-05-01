@@ -36,7 +36,14 @@ const JobTable: React.FC = () => {
       width: '15%',
       render(status: JobStatus) {
         const text = JobStatus[status];
-        const tagColor = status === JobStatus.Running ? 'orange' : 'green';
+        let tagColor: 'red' | 'orange' | 'green';
+        if (status === JobStatus.Running) {
+          tagColor = 'orange';
+        } else if (status === JobStatus.Completed) {
+          tagColor = 'green';
+        } else {
+          tagColor = 'red';
+        }
         return <Tag color={tagColor}>{text}</Tag>;
       },
     },
@@ -46,12 +53,12 @@ const JobTable: React.FC = () => {
       width: '25%',
       render(n: undefined, job: JobLine) {
         const { status, uid } = job;
-        let operationButton: JSX.Element;
+        let operationButton: React.ReactNode;
         if (status === JobStatus.Running) {
           const handleCheckButtonClick = async () => {
             setLoadingJobId(uid);
-            const finished = await db.checkJob(uid);
-            if (finished) {
+            const incomingStatus = await db.checkJob(uid);
+            if (incomingStatus === JobStatus.Completed) {
               message.success('The job has completed!');
               const jobIndex = data.indexOf(job);
               const newData = [...data];
@@ -59,17 +66,27 @@ const JobTable: React.FC = () => {
               newJob.status = JobStatus.Completed;
               newData[jobIndex] = newJob;
               setData(newData);
-            } else {
+            } else if (incomingStatus === JobStatus.Running) {
               message.warning('The job is still running. Please come back later!');
+            } else {
+              message.error('An error occurred! Please change simulation settings!');
+              const jobIndex = data.indexOf(job);
+              const newData = [...data];
+              const newJob = Object.assign({}, job);
+              newJob.status = JobStatus.Error;
+              newData[jobIndex] = newJob;
+              setData(newData);
             }
             setLoadingJobId('');
           }
           operationButton = <Button loading={loadingJobId === uid} onClick={handleCheckButtonClick}>Check</Button>;
-        } else {
+        } else if (status === JobStatus.Completed) {
           const handleDetailButtonClick = () => {
             history.push(`/job/${uid}`);
           }
           operationButton = <Button onClick={handleDetailButtonClick} type="primary">Detail</Button>;
+        } else {
+          operationButton = null;
         }
         const handleConfirmDelete = async () => {
           await db.deleteJobAndResult(uid);

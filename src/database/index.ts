@@ -41,10 +41,17 @@ class Database {
     return result;
   }
 
-  async checkJob(uid: string): Promise<boolean> {
+  async checkJob(uid: string): Promise<JobStatus> {
     const result = await remote.retrieveJob(uid);
-    if (!result) {
-      return false;
+    const error = await remote.retrieveError(uid);
+    if (!result && !error) {
+      return JobStatus.Running;
+    } else if (error) {
+      await db.get('jobs')
+        .find({ uid })
+        .assign({ status: JobStatus.Error })
+        .write();
+      return JobStatus.Error;
     }
     await db.get('jobs')
       .find({ uid })
@@ -55,7 +62,7 @@ class Database {
       uid,
       output: JSON.parse(result),
     }).write();
-    return true;
+    return JobStatus.Completed;
   }
 
   async deleteJobAndResult(uid: string) {

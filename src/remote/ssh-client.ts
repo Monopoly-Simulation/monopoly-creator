@@ -12,6 +12,12 @@ export const projectDir = `/gpfsnyu/home/${credential.username}/monopoly`;
 export default class SSHClient {
   private uid = '';
 
+  private async readFile(filePath: string) {
+    await this.connect();
+    const { stdout } = await ssh.execCommand(`cat ${filePath}`);
+    return stdout;
+  }
+
   async connect() {
     return ssh.connect(credential);
   }
@@ -53,8 +59,10 @@ export default class SSHClient {
   }
 
   async retrieveJob(uid = this.uid) {
-    await this.connect();
-    const { stdout } = await ssh.execCommand(`cat ${projectDir}/output/output-${uid}.o`);
-    return stdout;
+    return this.readFile(`${projectDir}/output/output-${uid}.o`);
+  }
+
+  async retrieveError(uid = this.uid) {
+    return this.readFile(`${projectDir}/output/error-${uid}.e`);
   }
 }
