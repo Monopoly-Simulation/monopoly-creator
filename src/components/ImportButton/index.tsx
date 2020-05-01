@@ -6,7 +6,9 @@ import { BaseProps } from '@/types';
 
 const { remote } = window.require('electron');
 const fs = window.require('fs');
+
 const { dialog } = remote;
+const userDataPath = remote.app.getPath('userData');
 const win = remote.getCurrentWindow();
 
 const fileFilters: FileFilter[] = [
@@ -33,7 +35,7 @@ const ImportButton: React.FC<ImportButtonProps> = ({ className, style, onFinish 
     const fileContent = fs.readFileSync(filePath, {
       encoding: 'utf-8',
     });
-    fs.writeFileSync('db.json', fileContent, {
+    fs.writeFileSync(`${userDataPath}/db.json`, fileContent, {
       encoding: 'utf-8',
     });
     database.refresh();

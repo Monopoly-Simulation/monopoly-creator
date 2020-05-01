@@ -4,8 +4,10 @@ import { DatabaseStructure, JobStatus, JobLine, ResultLine } from './schema';
 
 const low = window.require('lowdb');
 const FileSync =  window.require('lowdb/adapters/FileSync');
+const { remote: electronRemote } = window.require('electron');
 
-let adapter = new FileSync<DatabaseStructure>('db.json');
+const userDataPath = electronRemote.app.getPath('userData');
+let adapter = new FileSync<DatabaseStructure>(`${userDataPath}/db.json`);
 let db = low(adapter);
 
 db.defaults<DatabaseStructure>({
@@ -15,7 +17,7 @@ db.defaults<DatabaseStructure>({
 
 class Database {
   refresh() {
-    adapter = new FileSync<DatabaseStructure>('db.json');
+    adapter = new FileSync<DatabaseStructure>(`${userDataPath}/db.json`);
     db = low(adapter);
   }
 

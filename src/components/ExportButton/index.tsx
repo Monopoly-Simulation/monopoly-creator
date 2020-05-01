@@ -4,7 +4,9 @@ import { BaseProps } from '@/types';
 
 const { remote } = window.require('electron');
 const fs = window.require('fs');
+
 const { dialog } = remote;
+const userDataPath = remote.app.getPath('userData');
 const win = remote.getCurrentWindow();
 
 const ExportButton: React.FC<BaseProps> = ({ className, style }) => {
@@ -16,7 +18,7 @@ const ExportButton: React.FC<BaseProps> = ({ className, style }) => {
       return;
     }
     const dirPath = selectResults[0];
-    const databaseContent = fs.readFileSync('db.json', {
+    const databaseContent = fs.readFileSync(`${userDataPath}/db.json`, {
       encoding: 'utf-8',
     });
     fs.writeFileSync(`${dirPath}/database.json`, databaseContent, {

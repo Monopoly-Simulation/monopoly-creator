@@ -2,26 +2,13 @@
   "name": "monopoly-creator",
   "version": "0.1.0",
   "private": true,
+  "author": "Yijie(Billy) Zou",
+  "description": "A desktop application to create monopoly simulation jobs on HPC",
+  "homepage": ".",
   "dependencies": {
-    "@ant-design/icons": "^4.0.6",
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.3.2",
-    "@testing-library/user-event": "^7.1.2",
-    "@types/jest": "^24.0.0",
-    "@types/lowdb": "^1.0.9",
-    "@types/node": "^12.0.0",
-    "@types/node-ssh": "^7.0.0",
-    "@types/react": "^16.9.0",
-    "@types/react-dom": "^16.9.0",
-    "antd": "^4.1.2",
-    "classnames": "^2.2.6",
+    "electron-is-dev": "^1.2.0",
     "lowdb": "^1.0.0",
-    "node-ssh": "^8.0.0",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "react-router-dom": "^5.1.2",
-    "react-scripts": "3.4.1",
-    "uuid": "^7.0.3"
+    "node-ssh": "^8.0.0"
   },
   "main": "build/electron/main.js",
   "scripts": {
@@ -29,7 +16,7 @@
     "web-build": "react-app-rewired build",
     "eject": "react-scripts eject",
     "start": "concurrently \"BROWSER=none react-app-rewired start\" \"wait-on http://localhost:3000 && tsc -p electron -w\" \"wait-on http://localhost:3000 && tsc -p electron && electron .\"",
-    "build": "react-app-rewired build && tsc -p electron && electron-builder",
+    "build": "rm -rf ./dist && react-app-rewired build && tsc -p electron && electron-builder",
     "clean": "rm -rf node_modules",
     "postinstall": "electron-builder install-app-deps"
   },
@@ -38,8 +25,12 @@
     "files": [
       "build/**/*"
     ],
+    "productName": "Monopoly Creator",
     "directories": {
       "buildResources": "assets"
+    },
+    "mac": {
+      "icon": "./build/icon.icns"
     }
   },
   "eslintConfig": {
@@ -58,23 +49,36 @@
     ]
   },
   "devDependencies": {
+    "@ant-design/icons": "^4.0.6",
     "@types/classnames": "^2.2.10",
     "@types/react-router-dom": "^5.1.4",
     "@types/uuid": "^7.0.2",
+    "@types/jest": "^24.0.0",
+    "@types/lowdb": "^1.0.9",
+    "@types/node": "^12.0.0",
+    "@types/node-ssh": "^7.0.0",
+    "@types/react": "^16.9.0",
+    "@types/react-dom": "^16.9.0",
+    "antd": "^4.1.2",
     "antd-dayjs-webpack-plugin": "^1.0.0",
     "babel-plugin-import": "^1.13.0",
+    "classnames": "^2.2.6",
     "concurrently": "^5.1.0",
     "css-loader": "2.1.1",
     "customize-cra": "^0.9.1",
     "electron": "^8.2.1",
     "electron-builder": "^22.4.1",
-    "electron-is-dev": "^1.2.0",
     "electron-rebuild": "^1.10.1",
     "electron-reload": "^1.5.0",
     "less": "^3.11.1",
     "less-loader": "^5.0.0",
+    "react": "^16.13.1",
     "react-app-rewired": "^2.1.5",
+    "react-dom": "^16.13.1",
+    "react-router-dom": "^5.1.2",
+    "react-scripts": "3.4.1",
     "typescript": "^3.8.3",
+    "uuid": "^7.0.3",
     "wait-on": "^4.0.1"
   }
 }
