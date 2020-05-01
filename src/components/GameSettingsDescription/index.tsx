@@ -20,19 +20,32 @@ const GameSettingsDescription: React.FC<GameSettingsDescriptionProps> = ({ class
     let rangeParam = '';
     let step = 0;
     let stepNumber = 0;
-    const { incomeStep, incomeStepNumber, initialFundingStep, initialFundingStepNumber, taxStep, taxStepNumber } = g;
+    const {
+      incomeStep,
+      incomeStepNumber,
+      initialFundingStep,
+      initialFundingStepNumber,
+      taxStep,
+      taxStepNumber,
+      propertyTaxStep,
+      propertyTaxStepNumber,
+    } = g;
     if (incomeStep && incomeStepNumber) {
       rangeParam = 'Salary';
       step = incomeStep;
       stepNumber = incomeStepNumber;
     } else if (initialFundingStep && initialFundingStepNumber) {
-      rangeParam = 'Initial Funding';
+      rangeParam = 'Initial funding';
       step = initialFundingStep;
       stepNumber = initialFundingStepNumber;
     } else if (taxStep && taxStepNumber) {
       rangeParam = 'Tax';
       step = taxStep;
       stepNumber = taxStepNumber;
+    } else if (propertyTaxStep && propertyTaxStepNumber) {
+      rangeParam = 'Property tax';
+      step = propertyTaxStep;
+      stepNumber = propertyTaxStepNumber;
     }
     if (!rangeParam) {
       return null;
@@ -45,7 +58,7 @@ const GameSettingsDescription: React.FC<GameSettingsDescriptionProps> = ({ class
       </>
     );
   }
-  const { game, player, round, income, tax, initialFunding } = settings;
+  const { game, player, round, income, tax, propertyTax, initialFunding } = settings;
   return (
     <Descriptions className={className} title="Game settings" bordered>
       <Descriptions.Item label="Number of games">{game}</Descriptions.Item>
@@ -53,6 +66,7 @@ const GameSettingsDescription: React.FC<GameSettingsDescriptionProps> = ({ class
       <Descriptions.Item label="Maximum round limit">{round}</Descriptions.Item>
       <Descriptions.Item label="Salary">{income}</Descriptions.Item>
       <Descriptions.Item label="Tax">{tax}%</Descriptions.Item>
+      <Descriptions.Item label="Property tax">{propertyTax}%</Descriptions.Item>
       <Descriptions.Item label="Initial funding">{initialFunding}</Descriptions.Item>
       {createRangeDescription(settings)}
     </Descriptions>

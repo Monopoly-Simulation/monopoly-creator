@@ -20,5 +20,6 @@ export const emptyGame: Game = {
   round: 0,
   income: 0,
   tax: 0,
-  initialFunding: 0
+  propertyTax: 0,
+  initialFunding: 0,
 }

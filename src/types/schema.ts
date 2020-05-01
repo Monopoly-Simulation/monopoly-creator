@@ -17,6 +17,9 @@ export interface Game {
   tax: number;
   taxStep?: number;
   taxStepNumber?: number;
+  propertyTax: number;
+  propertyTaxStep?: number;
+  propertyTaxStepNumber?: number;
   initialFunding: number;
   initialFundingStep?: number;
   initialFundingStepNumber?: number;
@@ -30,6 +33,7 @@ export interface PlayerSettings {
   upgrade_para: number;
   income: number;
   tax: number;
+  building_tax: number;
   start_capital: number;
 }
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Form, Input, InputNumber, Button, Modal } from 'antd';
 import { Game } from '@/types';
 import remote from '@/remote';
@@ -28,6 +28,7 @@ const initialValues: Partial<FormValues> = {
   initialFunding: 200,
   income: 100,
   tax: 0,
+  propertyTax: 0,
 }
 
 const CreateForm: React.FC = () => {
@@ -36,6 +37,10 @@ const CreateForm: React.FC = () => {
   const [isInitialFundingRange, toggleIsInitialFundingRange] = useBooleanState(false);
   const [isSalaryRange, toggleIsSalaryRange] = useBooleanState(false);
   const [isTaxRange, toggleIsTaxRange] = useBooleanState(false);
+  const [isPropertyTaxRange, toggleIsPropertyTaxRange] = useBooleanState(false);
+  const isRangeAvailable = useMemo(() => {
+    return !isInitialFundingRange && !isSalaryRange && !isTaxRange && !isPropertyTaxRange;
+  }, [isInitialFundingRange, isSalaryRange, isTaxRange, isPropertyTaxRange]);
 
   const handleFinish = async (values: any) => {
     const { email, ...gameProps } = values as FormValues;
@@ -69,6 +74,7 @@ const CreateForm: React.FC = () => {
         <InputNumber min={1} max={10000} />
       </Form.Item>
       <ElasticItem
+        elastic={isInitialFundingRange || isRangeAvailable}
         expanded={isInitialFundingRange}
         label="Initial funding"
         name="initialFunding"
@@ -76,6 +82,7 @@ const CreateForm: React.FC = () => {
         onBtnClick={toggleIsInitialFundingRange}
       />
       <ElasticItem
+        elastic={isSalaryRange || isRangeAvailable}
         expanded={isSalaryRange}
         label="Salary"
         extra="Salary is paid when players pass [GO]"
@@ -84,12 +91,22 @@ const CreateForm: React.FC = () => {
         onBtnClick={toggleIsSalaryRange}
       />
       <ElasticItem
+        elastic={isTaxRange || isRangeAvailable}
         expanded={isTaxRange}
         label="Tax(%)"
         extra="Tax is charged when players pass [GO]"
         name="tax"
         input={<InputNumber min={0} max={100} />}
         onBtnClick={toggleIsTaxRange}
+      />
+      <ElasticItem
+        elastic={isPropertyTaxRange || isRangeAvailable}
+        expanded={isPropertyTaxRange}
+        label="Property tax(%)"
+        extra="Property tax is based on properties that players have"
+        name="propertyTax"
+        input={<InputNumber min={0} max={100} />}
+        onBtnClick={toggleIsPropertyTaxRange}
       />
       <Form.Item
         label="Email"

@@ -8,7 +8,7 @@ class GameConfig implements Config {
   }
 
   getModeParam() {
-    return '-mode 0';
+    return '-mode 2';
   }
 
   getGameParam() {
@@ -42,6 +42,14 @@ class GameConfig implements Config {
     return `-tax ${tax / 100}`;
   }
 
+  getPropertyTaxParam() {
+    const { propertyTax, propertyTaxStep, propertyTaxStepNumber } = this.settings;
+    if (propertyTaxStep && propertyTaxStepNumber) {
+      return `-b_tax ${propertyTax / 100} ${propertyTaxStep / 100} ${propertyTaxStepNumber}`;
+    }
+    return `-b_tax ${propertyTax / 100}`;
+  }
+
   getInitialFundingParam() {
     const { initialFunding, initialFundingStep, initialFundingStepNumber } = this.settings;
     if (initialFundingStep && initialFundingStepNumber) {
@@ -70,6 +78,7 @@ class GameConfig implements Config {
       this.getRoundParam(),
       this.getIncomeParam(),
       this.getTaxParam(),
+      this.getPropertyTaxParam(),
       this.getInitialFundingParam(),
       this.getBuyingRangeParam(),
       this.getUpgradingRangeParam(),

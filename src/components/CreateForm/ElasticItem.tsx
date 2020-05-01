@@ -6,6 +6,7 @@ import styles from './index.module.less';
 const cx = classNames.bind(styles);
 
 interface ElasticItemProps {
+  elastic?: boolean;
   expanded?: boolean;
   label?: React.ReactNode;
   extra?: React.ReactNode;
@@ -15,7 +16,7 @@ interface ElasticItemProps {
 }
 
 const ElasticItem: React.FC<ElasticItemProps> = ({
-  expanded, label, extra, name, input, onBtnClick
+  elastic, expanded, label, extra, name, input, onBtnClick
 }) => {
   const btnText = expanded ? 'Constant mode' : 'Range mode';
   const stepInput = expanded ? (
@@ -28,6 +29,9 @@ const ElasticItem: React.FC<ElasticItemProps> = ({
       <InputNumber placeholder="Step number" />
     </Form.Item>
   ) : null;
+  const elasticButton = elastic ? (
+    <Button onClick={onBtnClick} type="link">{btnText}</Button>
+  ) : null;
   return (
     <Form.Item label={label} extra={extra}>
       <Form.Item className={cx('item--inline')} name={name}>
@@ -35,7 +39,7 @@ const ElasticItem: React.FC<ElasticItemProps> = ({
       </Form.Item>
       {stepInput}
       {stepNumberInput}
-      <Button onClick={onBtnClick} type="link">{btnText}</Button>
+      {elasticButton}
     </Form.Item>
   );
 }
