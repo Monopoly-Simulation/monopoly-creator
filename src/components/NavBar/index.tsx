@@ -6,8 +6,9 @@ const { Item: MenuItem } = Menu;
 
 const NavBar: React.FC = () => {
   const location = useLocation();
+  const selectKey = location.pathname === '/index.html' ? '/' : location.pathname;
   return (
-    <Menu mode="horizontal" selectedKeys={[location.pathname]}>
+    <Menu mode="horizontal" selectedKeys={[selectKey]}>
       <MenuItem key="/">
         <Link to="/">Home</Link>
       </MenuItem>

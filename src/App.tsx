@@ -19,6 +19,9 @@ function App() {
         <Route path="/job/:uid">
           <Job />
         </Route>
+        <Route>
+          <Home />
+        </Route>
       </Switch>
     </Router>
   );
