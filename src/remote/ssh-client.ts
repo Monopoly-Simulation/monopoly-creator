@@ -47,6 +47,9 @@ export default class SSHClient {
 
   async createJob(job: Job, game: Game) {
     this.uid = uuid();
+    const { incomeStepNumber, initialFundingStepNumber, propertyTaxStepNumber, taxStepNumber } = game;
+    const coreNumber = incomeStepNumber || initialFundingStepNumber || propertyTaxStepNumber || taxStepNumber || 1;
+    job.core = coreNumber;
     const jobConfig = this.createJobConfig(job);
     const gameConfig = this.createGameConfig(game);
     const script = [jobConfig, gameConfig].join('\n');

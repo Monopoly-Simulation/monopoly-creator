@@ -66,6 +66,12 @@ class GameConfig implements Config {
     return '-s_para 0.5';
   }
 
+  getProcessNumberParam() {
+    const { incomeStepNumber, initialFundingStepNumber, propertyTaxStepNumber, taxStepNumber } = this.settings;
+    const processNumber = incomeStepNumber || initialFundingStepNumber || propertyTaxStepNumber || taxStepNumber || 1;
+    return `-n_process ${processNumber}`
+  }
+
   getCommand() {
     const parameters: string[] = [
       this.getModeParam(),
@@ -78,6 +84,7 @@ class GameConfig implements Config {
       this.getInitialFundingParam(),
       this.getStrategyTypeParam(),
       this.getStrategyScaleParam(),
+      this.getProcessNumberParam(),
     ];
     return `python monopoly.py ${parameters.join(' ')}`;
   }
