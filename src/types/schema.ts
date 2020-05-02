@@ -35,6 +35,7 @@ export interface PlayerSettings {
   tax: number;
   building_tax: number;
   start_capital: number;
+  [key: string]: number;
 }
 
 export interface GameResult {
@@ -47,6 +48,7 @@ export interface GameAnalysis {
   avg_time: number;
   avg_round: number;
   total_time: number;
+  [key: string]: number;
 }
 
 export interface SimulationResult {

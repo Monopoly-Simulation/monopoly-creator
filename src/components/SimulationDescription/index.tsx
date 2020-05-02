@@ -6,6 +6,7 @@ import Subtitle from '@/components/Subtitle';
 import SimulationSelect from '@/components/SimulationSelect';
 import PlayerSettingsList from '@/components/PlayerSettingsList';
 import SimulationAnalysis from '@/components/SimulationAnalysis';
+import ResultChart from '@/components/ResultChart';
 import db from '@/database';
 import styles from './index.module.less';
 
@@ -32,6 +33,9 @@ const SimulationDescription: React.FC<SimulationDescriptionProps> = ({ className
   }
   return (
     <div className={className}>
+      <Subtitle>Result chart</Subtitle>
+      <ResultChart result={simulations} />
+      <Subtitle>Simulation statistics</Subtitle>
       <SimulationSelect defaultValue={0} length={simulations.length} onChange={handleSimulationChange} />
       <Subtitle>Players</Subtitle>
       <PlayerSettingsList players={selectedSimulation.settings} />
