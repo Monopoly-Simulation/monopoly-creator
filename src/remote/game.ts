@@ -58,16 +58,12 @@ class GameConfig implements Config {
     return `-sc ${initialFunding}`;
   }
 
-  getBuyingRangeParam() {
-    return '-br 0.5';
+  getStrategyTypeParam() {
+    return '-s 0';
   }
 
-  getUpgradingRangeParam() {
-    return '-ur 0.5';
-  }
-
-  getTradingRangeParam() {
-    return '-tr 0.5';
+  getStrategyScaleParam() {
+    return '-s_para 0.5';
   }
 
   getCommand() {
@@ -80,9 +76,8 @@ class GameConfig implements Config {
       this.getTaxParam(),
       this.getPropertyTaxParam(),
       this.getInitialFundingParam(),
-      this.getBuyingRangeParam(),
-      this.getUpgradingRangeParam(),
-      this.getTradingRangeParam(),
+      this.getStrategyTypeParam(),
+      this.getStrategyScaleParam(),
     ];
     return `python monopoly.py ${parameters.join(' ')}`;
   }
