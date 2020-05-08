@@ -1,6 +1,6 @@
 {
   "name": "monopoly-creator",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "private": true,
   "author": "Yijie(Billy) Zou",
   "description": "A desktop application to create monopoly simulation jobs on HPC",
