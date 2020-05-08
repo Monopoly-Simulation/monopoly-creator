@@ -12,7 +12,7 @@ interface PlayerSettingsListProps {
 const PlayerSettingsList: React.FC<PlayerSettingsListProps> = ({ players }) => {
   const panels = useMemo(() => {
     return players.map((player, index) => (
-      <Panel header={`Player ${index}`} key={`player${index}`}>
+      <Panel header={`Player ${index + 1}`} key={`player${index}`}>
         <PlayerSettingsItem player={player} />
       </Panel>
     ));

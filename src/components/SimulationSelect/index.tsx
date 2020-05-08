@@ -20,7 +20,7 @@ const SimulationSelect: React.FC<SimulationSelectProps> = ({ defaultValue, lengt
   const options = useMemo(() => {
     const tmp = [];
     for (let i = 0; i < length; i += 1) {
-      tmp.push(<Option value={i}>{i}</Option>)
+      tmp.push(<Option value={i}>{i + 1}</Option>)
     }
     return tmp;
   }, [length]);

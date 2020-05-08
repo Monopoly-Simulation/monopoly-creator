@@ -38,7 +38,7 @@ const ResultChart: React.FC<ResultChartProps> = ({ result }) => {
     const { settings } = result[0];
     return settings.map((setting, index) => ({
       value: `${index}`,
-      label: `Player ${index}`,
+      label: `Player ${index + 1}`,
       children: [
         {
           value: 'start_capital',
