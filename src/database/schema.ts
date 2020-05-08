@@ -13,6 +13,7 @@ export enum JobStatus {
 
 export interface JobLine {
   uid: string;
+  name: string;
   startTime: number;
   status: JobStatus;
   gameSettings: Game;

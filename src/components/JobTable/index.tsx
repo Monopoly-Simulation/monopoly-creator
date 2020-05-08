@@ -5,6 +5,7 @@ import { ExclamationCircleOutlined } from '@ant-design/icons';
 import classNames from 'classnames/bind';
 import db from '@/database';
 import { JobLine, JobStatus } from '@/database/schema';
+import { Game } from '@/types';
 import styles from './index.module.less';
 
 const cx = classNames.bind(styles);
@@ -15,10 +16,49 @@ const JobTable: React.FC = () => {
   const history = useHistory();
   const columns = [
     {
-      title: 'Job ID',
-      dataIndex: 'uid',
-      key: 'uid',
-      width: '40%',
+      title: 'Job name',
+      dataIndex: 'name',
+      key: 'name',
+      width: '10%',
+      render(name: string) {
+        return name || '(untitled)';
+      }
+    },
+    {
+      title: 'Initial funding',
+      dataIndex: 'gameSettings',
+      key: 'initialFunding',
+      width: '10%',
+      render(game: Game) {
+        return game.initialFunding;
+      }
+    },
+    {
+      title: 'Salary',
+      dataIndex: 'gameSettings',
+      key: 'salary',
+      width: '10%',
+      render(game: Game) {
+        return game.income;
+      }
+    },
+    {
+      title: 'Tax',
+      dataIndex: 'gameSettings',
+      key: 'tax',
+      width: '5%',
+      render(game: Game) {
+        return `${game.tax}%`;
+      }
+    },
+    {
+      title: 'Property tax',
+      dataIndex: 'gameSettings',
+      key: 'propertyTax',
+      width: '5%',
+      render(game: Game) {
+        return `${game.propertyTax}%`;
+      }
     },
     {
       title: 'Creation time',

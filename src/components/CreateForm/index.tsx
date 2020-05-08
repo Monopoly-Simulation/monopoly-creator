@@ -19,6 +19,7 @@ const tailLayout = {
 
 interface FormValues extends Game {
   email: string;
+  name: string;
 }
 
 const initialValues: Partial<FormValues> = {
@@ -43,11 +44,12 @@ const CreateForm: React.FC = () => {
   }, [isInitialFundingRange, isSalaryRange, isTaxRange, isPropertyTaxRange]);
 
   const handleFinish = async (values: any) => {
-    const { email, ...gameProps } = values as FormValues;
+    const { email, name, ...gameProps } = values as FormValues;
     setLoading(true);
     try {
       const uid = await remote.createJob({ email }, gameProps);
       await db.addJob({
+        name,
         uid,
         gameSettings: gameProps,
       });
@@ -64,6 +66,9 @@ const CreateForm: React.FC = () => {
 
   return (
     <Form {...layout} form={form} onFinish={handleFinish} initialValues={initialValues}>
+      <Form.Item name="name" label="Job name(optional)">
+        <Input placeholder="Give the job a friendly name" />
+      </Form.Item>
       <Form.Item name="game" label="Number of games">
         <InputNumber min={1} max={1000} />
       </Form.Item>
